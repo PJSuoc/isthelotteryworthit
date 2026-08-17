@@ -1,5 +1,5 @@
-import requests
-from bs4 import BeautifulSoup
+from scraper_util import run_scraper
+import json
 
 ############### Mega Millions Static Values ######################
 
@@ -31,18 +31,38 @@ TAXES = .37
 ####################### Scrape Lottery #######################################
 
 
-PRIZES['fiveplusball'] = 987654321
+WEBSITE = "https://www.megamillions.com/" 
+TARGET = "span.nextEstVal js_estJackpot"
+ALT_TARGET = "span.nextCashOpt js_cashOpt"
+
+grand_prize = run_scraper(WEBSITE, TARGET)
+PRIZES['fiveplusball'] = grand_prize
 
 ####################### Calculations #########################################
 
 m_wins = 0
 
 for win, prize in PRIZES.items():
-    m_wins += prize * (1 / ODDS[win]) * AVGMULTIPLIER
+    prize = prize * AVGMULTIPLIER # Gets actual winnings amount
+    if prize >= 600000: # Applies taxes if relevant
+        prize = prize * (1-TAXES)
+    m_wins += prize * (1 / ODDS[win]) # Adds mean winnings to pool from prize type win
 
 ratio = m_wins / COST
 
 if ratio >= 1:
-    print("YES", ratio)
+    yesno = True
 else:
-    print("NO", ratio)
+    yesno = False
+
+####################### Save to File ########################################
+
+with open('isthelotteryworthit\frontend\myapp\public\numbers.json') as f:
+    data = json.load(f)
+
+data['mm_num'] = grand_prize
+data['mm_ratio'] = ratio
+data['mm_worth'] = yesno
+
+with open('isthelotteryworthit\frontend\myapp\public\numbers.json') as f:
+    json.dump(data, f)
