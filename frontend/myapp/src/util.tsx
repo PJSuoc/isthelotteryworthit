@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react';
 // I know this is not the most efficient way to get this data
 // but I am using it to test building with many components vs 1
 
-interface AppData {
-    yesno: string;
+export interface AppData {
+    pb_worth: boolean;
     pb_num: number;
     pb_ratio: number;
+    mm_worth: boolean;
     mm_num: number;
     mm_ratio: number;
 }
@@ -22,12 +23,19 @@ function AppDataGet() {
             .then(setData)
     }, []);
 
-    return appdata
+    return appdata;
 }
 
 
-function YesNoGet({ yesno }: AppData) {
-    return <p className='yesno'> { yesno } </p>
+function YesNoGet(appdata: AppData) {
+
+    const { pb_worth, mm_worth } = appdata;
+
+    if (pb_worth || mm_worth) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function PowerballJackpotGet({ pb_num }: AppData) {

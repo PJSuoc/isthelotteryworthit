@@ -2,31 +2,23 @@ import { useState } from 'react'
 import './App.css'
 import { AppDataGet, YesNoGet } from './util.tsx'
 
-interface AppData {
-  yesno: string,
-}
+export function YesNoApp() {
 
-function YesNoApp() {
-  const [count, setCount] = useState(0)
+  const appdata = AppDataGet()
 
-  const yesno: string = YesNoGet()
-
-  let color: string = 'red-no'
-
-  if (yesno == 'yes') { 
-    return (
-      <>
-        
-      </>
-    )
+  if (!appdata) {
+    return <p>Loading...</p>
   }
-  else {
+
+  if (YesNoGet(appdata)) {
     return (
-      <>
-        
-      </>
+      <p> YES </p>
     )
-  }
+  } else {
+    return (
+      <p> No </p>
+    )
+    }  
 
 
 }
