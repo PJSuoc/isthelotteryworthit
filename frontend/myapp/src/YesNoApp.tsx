@@ -1,10 +1,15 @@
-import { useState } from 'react'
 import './App.css'
-import { AppDataGet, YesNoGet } from './util.tsx'
+import { useAppData, AppDataProvider, YesNoGet } from './util.tsx'
+import { Powerball, Megamillions } from './Lotteries.tsx'
+
 
 export function YesNoApp() {
+  /*
+  Sets important information for the background of the frontpage and text
+  holds the specific lotteries inside it to give them access to this info
+  */
 
-  const appdata = AppDataGet()
+  const appdata = useAppData();
 
   if (!appdata) {
     return <p>Loading...</p>
@@ -12,15 +17,34 @@ export function YesNoApp() {
 
   if (YesNoGet(appdata)) {
     return (
-      <p> YES </p>
+      <div className="yes">
+        <p className="yes-text"> YES </p>
+        <div id="lotteries" className="lotto-boxes">
+          <Powerball />
+          <Megamillions />
+        </div>
+      </div>
     )
   } else {
     return (
-      <p> No </p>
+      <div className="no">
+        <p className="no-text"> NO </p>
+        <div id="lotteries" className="lotto-boxes">
+          <Powerball />
+          <Megamillions />
+        </div>
+      </div>
     )
     }  
 
 
 }
 
-export default YesNoApp
+export function App() {
+  // Wraps the whole shebang in a context that feeds the data points of all the relevant bits of the website
+  return (
+    <AppDataProvider>
+      <YesNoApp></YesNoApp>
+    </AppDataProvider>
+  )
+}

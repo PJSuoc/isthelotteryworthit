@@ -1,7 +1,4 @@
-import { useState, useEffect } from 'react';
-
-// I know this is not the most efficient way to get this data
-// but I am using it to test building with many components vs 1
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 
 export interface AppData {
     pb_worth: boolean;
@@ -12,22 +9,29 @@ export interface AppData {
     mm_ratio: number;
 }
 
-function AppDataGet() {
+const AppDataContext = createContext<AppData | null>(null);
 
-    const [appdata, setData] = useState<AppData | null>(null);
-
+export function AppDataProvider({ children }: { children: ReactNode }) {
+    const [appdata, setAppdata] = useState<AppData | null>(null);
 
     useEffect(() => {
         fetch('/numbers.json', { cache: 'no-store' })
             .then((res) => res.json())
-            .then(setData)
+            .then(setAppdata)
     }, []);
 
-    return appdata;
+    return (
+        <AppDataContext.Provider value={appdata}>
+            {children}
+        </AppDataContext.Provider>
+    )
 }
 
+export function useAppData() {
+    return useContext(AppDataContext);
+}
 
-function YesNoGet(appdata: AppData) {
+export function YesNoGet(appdata: AppData) {
 
     const { pb_worth, mm_worth } = appdata;
 
@@ -38,12 +42,13 @@ function YesNoGet(appdata: AppData) {
     }
 }
 
+
 function PowerballJackpotGet({ pb_num }: AppData) {
-    return <p className='jackpot'> { pb_num } </p>
+    return pb_num
 }
 
 function PowerballRatioGet({ pb_ratio }: AppData) {
-    return <p className='ratio'> { pb_ratio } </p>
+    return pb_ratio
 }
 
 function MegaMillionJackpotGet({ mm_num }: AppData) {
@@ -56,8 +61,6 @@ function MegaMillionRatioGet({ mm_ratio }: AppData) {
 
 
 export {
-    AppDataGet, 
-    YesNoGet, 
     PowerballJackpotGet, 
     PowerballRatioGet, 
     MegaMillionJackpotGet, 

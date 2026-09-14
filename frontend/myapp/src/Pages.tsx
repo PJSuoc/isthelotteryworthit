@@ -2,7 +2,10 @@ import './App.css'
 
 function Pages() {
     return (
-    <h2>Different Pages Here</h2>
+        <div className="other-pages">
+            <a className="page-btn">The Math</a>
+            <a className="page-btn">Disclaimer</a>
+        </div>>
     )
 }
 
