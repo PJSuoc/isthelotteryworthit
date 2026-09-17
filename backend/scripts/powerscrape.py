@@ -1,5 +1,7 @@
-from scraper_util import run_scraper
+from scraper_util import run_scraper, clean_number
+from pathlib import Path
 import json
+
 
 ############### Powerball Static Values ######################
 
@@ -31,12 +33,12 @@ TAXES = .37
 ####################### Scrape Lottery #######################################
 
 WEBSITE = "https://www.powerball.com/" 
-TARGET = "span.game-jackpot-number text-xxxl lh-1 text-center"
-ALT_TARGET = "span.game-jackpot-number text-lg lh-1 text-center"
+TARGET = "span.game-jackpot-number.text-xxxl.lh-1.text-center"
+ALT_TARGET = "span.game-jackpot-number.text-lg.lh-1.text-center"
 
 grand_prize = run_scraper(WEBSITE, TARGET)
+grand_prize = clean_number(grand_prize)
 PRIZES['fiveplusball'] = grand_prize
-
 
 ####################### Calculations #########################################
 
@@ -55,13 +57,17 @@ else:
     yesno = False
 
 ####################### Save to File ########################################
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+NUMBERS_PATH = BASE_DIR / 'frontend' / 'myapp' / 'public' / 'numbers.json'
 
-with open('isthelotteryworthit\frontend\myapp\public\numbers.json') as f:
+print(grand_prize, ratio, yesno)
+
+with open(NUMBERS_PATH) as f:
     data = json.load(f)
 
 data['pb_num'] = grand_prize
 data['pb_ratio'] = ratio
 data['pb_worth'] = yesno
 
-with open('isthelotteryworthit\frontend\myapp\public\numbers.json') as f:
+with open(NUMBERS_PATH, 'w') as f:
     json.dump(data, f)

@@ -1,4 +1,5 @@
-from scraper_util import run_scraper
+from scraper_util import run_scraper, clean_number
+from pathlib import Path
 import json
 
 ############### Mega Millions Static Values ######################
@@ -32,18 +33,20 @@ TAXES = .37
 
 
 WEBSITE = "https://www.megamillions.com/" 
-TARGET = "span.nextEstVal js_estJackpot"
-ALT_TARGET = "span.nextCashOpt js_cashOpt"
+TARGET = "span.nextEstVal.js_estJackpot"
+ALT_TARGET = "span.nextCashOpt.js_cashOpt"
 
 grand_prize = run_scraper(WEBSITE, TARGET)
+grand_prize = clean_number(grand_prize)
 PRIZES['fiveplusball'] = grand_prize
+
 
 ####################### Calculations #########################################
 
 m_wins = 0
 
 for win, prize in PRIZES.items():
-    prize = prize * AVGMULTIPLIER # Gets actual winnings amount
+    prize = int(prize) * AVGMULTIPLIER # Gets actual winnings amount
     if prize >= 600000: # Applies taxes if relevant
         prize = prize * (1-TAXES)
     m_wins += prize * (1 / ODDS[win]) # Adds mean winnings to pool from prize type win
@@ -57,12 +60,17 @@ else:
 
 ####################### Save to File ########################################
 
-with open('isthelotteryworthit\frontend\myapp\public\numbers.json') as f:
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+NUMBERS_PATH = BASE_DIR / 'frontend' / 'myapp' / 'public' / 'numbers.json'
+
+print(grand_prize, ratio, yesno)
+
+with open(NUMBERS_PATH) as f:
     data = json.load(f)
 
 data['mm_num'] = grand_prize
 data['mm_ratio'] = ratio
 data['mm_worth'] = yesno
 
-with open('isthelotteryworthit\frontend\myapp\public\numbers.json') as f:
+with open(NUMBERS_PATH, 'w') as f:
     json.dump(data, f)
