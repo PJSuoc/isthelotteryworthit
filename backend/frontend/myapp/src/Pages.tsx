@@ -5,7 +5,7 @@ function Pages() {
         <div className="other-pages">
             <a className="page-btn">The Math</a>
             <a className="page-btn">Disclaimer</a>
-        </div>>
+        </div>
     )
 }
 

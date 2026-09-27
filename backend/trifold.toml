@@ -1,6 +1,6 @@
 provider = "bunny"
 remote_path = ""
-local_path = ""
+local_path = "frontend/myapp/dist"
 ignore = []
 remote_ignore = []
 

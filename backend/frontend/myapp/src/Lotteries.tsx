@@ -5,6 +5,10 @@ export function Powerball() {
 
     const appdata = useAppData();
 
+    if (!appdata) {
+        return <div className="lotto-box">Loading...</div>;
+    }
+
     const pb_jackpot = "$" + String(appdata.pb_num);
     const pb_ratio = "$" + String(appdata.pb_ratio) + " back";
 
@@ -29,6 +33,10 @@ export function Powerball() {
 export function Megamillions() {
 
     const appdata = useAppData();
+
+    if (!appdata) {
+        return <div className="lotto-box">Loading...</div>;
+    }
 
     const mm_jack = "$" + String(appdata.mm_num);
     const mm_ratio = "$" + String(appdata.mm_ratio) + " back";
