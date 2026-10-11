@@ -22,15 +22,16 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install the project
+        working-directory: backend
         run: |
-          cd backend
           uv sync --all-extras
-          cd scripts
 
       - name: Run Powerball
+        working-directory: backend/scripts
         run:
           uv run powerscrape.py
 
       - name: Run Mega Millions
+        working-directory: backend/scripts
         run:
           uv run megascrape.py
