@@ -29,8 +29,8 @@ jobs:
 
       - name: Run Powerball
         run:
-          uv run powerscrape
+          uv run powerscrape.py
 
       - name: Run Mega Millions
         run:
-          uv run megascrape
+          uv run megascrape.py
