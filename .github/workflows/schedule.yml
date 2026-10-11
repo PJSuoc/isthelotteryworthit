@@ -25,6 +25,7 @@ jobs:
         working-directory: backend
         run: |
           uv sync --all-extras
+          uv run playwright install --with-deps firefox
 
       - name: Run Powerball
         working-directory: backend/scripts
