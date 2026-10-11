@@ -43,6 +43,7 @@
 }
 
 .lotto-box {
+  background-color: rgba(0, 0, 0, 0.2);
   margin: 3rem;
   padding: 1rem;
   border: 3px solid hsl(0, 0%, 32%);
@@ -59,14 +60,6 @@
   animation-delay: 2s; /* adjust to taste */
 }
 
-.jack-box {
-
-}
-
-.mega-box {
-  
-}
-
 .single-lotto {
   align-items: center;
   justify-content: center;
@@ -81,4 +74,9 @@
 
 .jackpot {
   font-family: Helvetica;
+}
+
+.page-btn {
+  font-family: Helvetica;
+  
 }
