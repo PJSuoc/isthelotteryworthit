@@ -58,7 +58,7 @@ else:
 
 ####################### Save to File ########################################
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-NUMBERS_PATH = BASE_DIR / 'frontend' / 'myapp' / 'public' / 'numbers.json'
+NUMBERS_PATH = BASE_DIR / 'backend' / 'frontend' / 'myapp' / 'public' / 'numbers.json'
 
 print(grand_prize, ratio, yesno)
 
