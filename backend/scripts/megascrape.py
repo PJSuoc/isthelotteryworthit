@@ -1,6 +1,7 @@
 from scraper_util import run_scraper, clean_number
 from pathlib import Path
 import json
+import time
 
 ############### Mega Millions Static Values ######################
 
@@ -37,7 +38,21 @@ TARGET = "span.nextEstVal.js_estJackpot"
 ALT_TARGET = "span.nextCashOpt.js_cashOpt"
 
 grand_prize = run_scraper(WEBSITE, TARGET)
+
+print("the pull", grand_prize)
+retries = 0
+
+while not grand_prize and retries < 10:
+    time.sleep(120)
+    grand_prize = run_scraper(WEBSITE, TARGET)
+    retries += 1
+    print("the REpull", grand_prize, retries)
+
+
 grand_prize = clean_number(grand_prize)
+
+
+print("the clean", grand_prize)
 PRIZES['fiveplusball'] = grand_prize
 
 
@@ -46,6 +61,7 @@ PRIZES['fiveplusball'] = grand_prize
 m_wins = 0
 
 for win, prize in PRIZES.items():
+    print(win , prize)
     prize = int(prize) * AVGMULTIPLIER # Gets actual winnings amount
     if prize >= 600000: # Applies taxes if relevant
         prize = prize * (1-TAXES)

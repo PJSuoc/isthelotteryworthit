@@ -1,5 +1,4 @@
 
-from bs4 import BeautifulSoup # type: ignore
 from playwright.sync_api import sync_playwright, Playwright # type: ignore
 import requests # type: ignore
 import traceback
