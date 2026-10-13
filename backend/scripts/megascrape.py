@@ -62,7 +62,8 @@ m_wins = 0
 
 for win, prize in PRIZES.items():
     print(win , prize)
-    prize = int(prize) * AVGMULTIPLIER # Gets actual winnings amount
+    if win != 'fiveplusball':
+        prize = int(prize) * AVGMULTIPLIER # Gets actual winnings amount for non jackpots
     if prize >= 600000: # Applies taxes if relevant
         prize = prize * (1-TAXES)
     m_wins += prize * (1 / ODDS[win]) # Adds mean winnings to pool from prize type win

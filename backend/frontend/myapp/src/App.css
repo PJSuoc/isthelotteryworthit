@@ -76,7 +76,127 @@
   font-family: Helvetica;
 }
 
+/* bottom page buttons ----------------------------------------------------*/
+
+
+.other-pages {
+    margin-top: 2rem;
+}
+
+.page-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
 .page-btn {
-  font-family: Helvetica;
-  
+    /* reset browser button defaults */
+    appearance: none;
+    font: inherit;
+    cursor: pointer;
+    font-family: Helvetica;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.25rem;
+
+    font-weight: 600;
+    color: #1f2937;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+
+    transition:
+        background-color 2s ease,
+        border-color 2s ease,
+        box-shadow 2s ease,
+        transform 2s ease,
+        color 2s ease;
+}
+
+/* chevron */
+.page-btn::after {
+    content: '';
+    width: 0.5em;
+    height: 0.5em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform .5s ease;
+}
+
+.page-btn:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.page-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.page-btn:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+/* open state */
+.page-btn[aria-expanded='true'] {
+    color: #ffffff;
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.page-btn[aria-expanded='true']::after {
+    transform: rotate(-135deg) translateY(-2px);
+}
+
+.page-btn[aria-expanded='true']:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+/* the expanded text area */
+.page-content {
+    max-width: 65ch;
+    margin: 1.5rem auto 0;
+    padding: 1.5rem 1.75rem;
+    text-align: left;
+    line-height: 1.65;
+
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+    animation: page-content-in 4s ease;
+}
+
+.page-content h2 {
+    margin-top: 0;
+}
+
+@keyframes page-content-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-btn,
+    .page-btn::after,
+    .page-content {
+        transition: none;
+        animation: none;
+    }
 }
