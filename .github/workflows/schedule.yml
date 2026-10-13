@@ -19,7 +19,8 @@ jobs:
         with:
           version: 0.5.7
       - name: Set up Python
-        run: uv python install ${{ matrix.python-version }}
+        run: 
+          uv python install ${{ matrix.python-version }}
 
       - name: Install the project
         working-directory: backend
@@ -36,3 +37,9 @@ jobs:
         working-directory: backend/scripts
         run:
           uv run megascrape.py
+
+      - name: Upload changes
+        working-director: backend
+        env: BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+        run:
+          uvx trifold publish
