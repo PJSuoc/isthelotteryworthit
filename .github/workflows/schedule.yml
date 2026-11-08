@@ -3,7 +3,7 @@ name: Run-Scrapers
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * * *'  
+    - cron: '17 12 * * *'  
 
 jobs:
   scrape:
@@ -29,6 +29,7 @@ jobs:
           uv sync --all-extras
           uv run playwright install --with-deps firefox
 
+
       - name: Run Powerball
         working-directory: backend/scripts
         run:
@@ -40,7 +41,7 @@ jobs:
           uv run megascrape.py
 
       - name: Upload changes
-        working-director: backend
+        working-directory: backend
         env: BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
         run:
           uvx trifold publish
