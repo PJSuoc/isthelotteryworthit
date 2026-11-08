@@ -8,6 +8,7 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    environment: production
     strategy:
       matrix:
         python-version: [ '3.13' ]
