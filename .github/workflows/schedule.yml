@@ -40,6 +40,11 @@ jobs:
         run:
           uv run megascrape.py
 
+      - name: Build website
+        working-directory: backend/frontend/myapp
+        run:
+          npm run build
+
       - name: Upload changes
         working-directory: backend
         env: 
