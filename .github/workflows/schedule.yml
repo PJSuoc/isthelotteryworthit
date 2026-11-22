@@ -40,6 +40,17 @@ jobs:
         run:
           uv run megascrape.py
 
+      - name: Install Frontend / npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/frontend/myapp/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: backend/frontend/myapp
+        run: npm ci
+
       - name: Build website
         working-directory: backend/frontend/myapp
         run:
